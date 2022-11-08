@@ -133,6 +133,7 @@
         "valueSource": "name",
         "valueTransform": "first_uc",
         "fileRename": "Headlixbase",
+        "replaces": "Headlixbase",
         "description": "Renames files in the solution to the name specified"
       }
     },
