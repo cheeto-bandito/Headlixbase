@@ -12,17 +12,17 @@
     "sourceName": "headlixbase",
     "preferNameDirectory": true,
     "primaryOutputs": [
-      { "path": "ProjectName.1.sln" }
+      { "path": "headlixbase.sln" }
     ],
     "sources": [
       {
         "modifiers": [
           {
             "rename": {
-              ".env.empty": ".env",
+              ".env-template": ".env",
               "nuget.public.config": "nuget.config"
             },
-            "exclude": [".git/**"]
+            "exclude": [".git/**", ".vs/**", ".vscode/**"]
           }
         ]
       }
@@ -89,7 +89,17 @@
       }
     },
     "symbols": {
-      "ItemName": {
+      "Author": {
+	    "type": "parameter",
+		"default":"anonymous",
+		"replaces":"anonymous"
+	  },
+	  "CompanyName": {
+        "type": "parameter",
+		"default":"companyname",
+        "replaces":"companyname"
+      },
+	  "ItemName": {
         "type": "derived",
         "valueSource": "name",
         "valueTransform": "ItemName",

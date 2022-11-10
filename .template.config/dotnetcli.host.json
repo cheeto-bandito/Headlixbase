@@ -1,0 +1,12 @@
+{
+  "symbolInfo": {
+    "Author": {
+      "longName": "author",
+      "shortName": "at"
+    },
+	"CompanyName": {
+      "longName": "company-name",
+      "shortName": "cn"
+    }
+  }
+}
