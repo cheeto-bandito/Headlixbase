@@ -1,11 +1,12 @@
 <img src="https://chetcheeto.files.wordpress.com/2022/02/headless.png" height="154px" width="200px" /><br />
 <a href="https://www.flaticon.com/free-icons/headless" title="headless icons">Headless icons created by max.icons - Flaticon</a><br />
-A Headless Sitecore Helix solution (Headlix) forked from [Helixbase](https://github.com/muso31/Helixbase) which can be used for Greenfield projects. Tackles some common problems when working with the platform.
+A Headless Sitecore Helix (Headlix) solution template which can be used for Greenfield projects. Tackles some common problems when working with the platform.
 
 #### Features include:
 
+* Docker Ready!
 * Sitecore Content Serialization (SCS)
-* Sitecore 10.2.0 ready
+* Sitecore 10.2.0
 * Version trimming rules engine - Items limited to 10 versions by default
 * Search Templates computed index field - find all items from an index by any templates they implement
 * Non admin Item Unlock
@@ -13,24 +14,22 @@ A Headless Sitecore Helix solution (Headlix) forked from [Helixbase](https://git
 * Integration with [helix-publishing-pipeline](https://github.com/richardszalay/helix-publishing-pipeline)
 * Fast ([see benchmark](https://github.com/richardszalay/Helixbase-HPP/tree/benchmarks#benchmarks)) publish-on-build (when building inside Visual Studio)
 * [_Show Title When Blank_](https://jammykam.wordpress.com/2017/09/20/show-title-when-blank/) patch, the forgotten Sitecore feature!
-* [Helix Check](https://github.com/marketplace/actions/helix-check) GitHub Action
+* COMING SOON: Scaffolding helix modules with `dotnet new`
+* COMING SOON: Support for custom `dotnet new` templates
 
-## Setup Instructions
-*Please Install Visual Studio 2017 Version 15.7 or higher as this project uses PackageReference
+## (TODO) Setup Instructions
+1. Install Visual Studio 2022
+2. Clone this repo
+3. Install the headlixbase template
+4. dotnet new headlixbase -n {YourSolutionName} -at {YourName} -cn {YourCompanyName}
+5. cd {YourSolutionName}
+6. .\init.ps1
+7. docker-compose build
+8. docker-compose up -d
 
-1. Install [Sitecore Experience Platform 10.2.0](https://dev.sitecore.net/Downloads/Sitecore_Experience_Platform/102/Sitecore_Experience_Platform_102.aspx)
-2. Install Sitecore PowerShell Extensions found in the [SXA download](https://dev.sitecore.net/Downloads/Sitecore_Experience_Accelerator/10x/Sitecore_Experience_Accelerator_1020.aspx) page (SXA not required)
-3. Install [Sitecore Management Services](https://doc.sitecore.com/xp/en/developers/102/developer-tools/sitecore-management-services.html) Sitecore package
-4. Clone the repo and update the 'publishUrl' property in [Local.pubxml](https://github.com/muso31/Helixbase/blob/master/src/Website/website/Properties/PublishProfiles/Local.pubxml#L12) to the target IIS folder
-5. Use the 'Local' publish profile in the `Headlixbase.Website` project to publish the solution
-6. Install [Sitecore CLI](https://dev.sitecore.net/Downloads/Sitecore_CLI.aspx) and push Sitecore items `dotnet sitecore ser push` - [installation documentation](https://doc.sitecore.com/xp/en/developers/102/developer-tools/install-sitecore-command-line-interface.html)
 
-#### Using Headlixbase:
-To change the item version limit edit the rule on the _/sitecore/system/Settings/Rules/Item Saved/Rules/Delete Old Versions_ item. You can also change the rule to recycle or archive old versions. 
+#### (TODO) Using Headlixbase:
 
-In the security editor you can assign non admin Item Unlock permissions.
-
-If you do not require a feature you can easily delete it.
 
 
 ## Build
@@ -49,19 +48,6 @@ CI/CD publishing:
 
 * Serialization files are automatically included into App_Data\serialization using the 'package' publish profile.
 
-Azure DevOps:
-
-* If you push this repository to Azure DevOps, then in Build Pipelines choose [New build pipeline](https://docs.microsoft.com/en-us/azure/devops/pipelines/create-first-pipeline?view=azure-devops&tabs=tfs-2018-2), it will automatically pick up the included [azure-pipelines.yml](https://github.com/muso31/Helixbase/blob/master/azure-pipelines.yml) file and create an example build pipeline that uses the Package publish profile.
-
-AppVeyor:
-
-* An example [appveyor.xml](https://github.com/muso31/Helixbase/blob/master/appveyor.yml) is included which builds, tests, and packages the solution.
-
-## Legacy Versions
-Legacy versions of Helix Base which are no longer updated or maintained can be found below:
-  
 
 ## Extensions
-A repository now exists for Helix Base and Headlixbase compatible modules:
-
-[Helix Base modules](https://github.com/muso31/Helixbase-modules)
+COMING SOON: A nuget feed for Headlixbase modules
