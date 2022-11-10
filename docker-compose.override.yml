@@ -5,7 +5,8 @@ services:
   solution:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     build:
-      context: .
+      context: ./
+      dockerfile: ./docker/build/solution/Dockerfile
       args:
         BASE_IMAGE: ${SOLUTION_BASE_IMAGE}
         BUILD_IMAGE: ${SOLUTION_BUILD_IMAGE}
