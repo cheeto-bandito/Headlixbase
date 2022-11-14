@@ -1,0 +1,19 @@
+{
+  "namespace": "helixlayer.modulename",
+  "references": [],
+  "items": {
+    "includes": [
+	  {
+        "name": "Templates",
+        "path": "/sitecore/templates/helixlayer/modulename",
+        "database": "master"
+      }
+	]
+  },
+  "leprechaun": {
+    "configuration": {
+      "@extends": "Headlixbase.Base",
+      "@name": "helixlayer.modulename"
+    }
+  }
+}
