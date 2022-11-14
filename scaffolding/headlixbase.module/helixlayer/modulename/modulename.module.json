@@ -9,5 +9,11 @@
         "database": "master"
       }
 	]
+  },
+  "leprechaun": {
+    "configuration": {
+      "@extends": "Headlixbase.Base",
+      "@name": "helixlayer.modulename"
+    }
   }
 }
