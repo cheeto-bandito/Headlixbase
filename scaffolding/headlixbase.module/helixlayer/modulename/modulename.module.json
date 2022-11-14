@@ -1,0 +1,13 @@
+{
+  "namespace": "helixlayer.modulename",
+  "references": [],
+  "items": {
+    "includes": [
+	  {
+        "name": "Templates",
+        "path": "/sitecore/templates/helixlayer/modulename",
+        "database": "master"
+      }
+	]
+  }
+}

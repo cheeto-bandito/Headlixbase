@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Chet Potvin",
+  "classifications": [ "Console" ], 
+  "name": "Headlixbase Module",
+  "identity": "Headlixbase.Module",         
+  "groupIdentity":"Headlixbase",
+  "shortName": "headlixbase.module",
+  "tags": {
+    "language": "C#",
+    "type":"project"
+  },
+  "sourceName": "headlixbase.helixlayer.modulename",
+  "preferNameDirectory": false,
+  "symbols":{
+    "CompanyName": {
+      "type": "parameter",
+      "defaultValue": "companyname",
+      "replaces":"companyname"
+    },
+    "SolutionName": {
+      "type": "parameter",
+      "defaultValue": "Headlixbase",
+      "replaces":"headlixbase",
+	  "fileRename":"headlixbase"
+    },
+    "HelixLayer": {
+      "type": "parameter",
+	  "datatype": "choice",
+      "defaultValue": "Feature",
+	  "choices": [
+	  {
+	    "choice":"Feature",
+	    "description":"Feature"
+	  },
+	  	  {
+	    "choice":"Project",
+	    "description":"Project"
+	  },
+	  {
+	    "choice":"Foundation",
+	    "description":"Foundation"
+	  }],
+      "replaces":"helixlayer",
+	  "fileRename":"helixlayer"
+    },
+	"ModuleRename": {
+	  "type": "derived",
+	  "valueSource": "name",
+	  "valueTransform": "first_uc",  
+	  "replaces": "modulename",
+	  "fileRename": "modulename"
+	}
+  },
+  "forms": {
+    "first_uc": {
+      "identifier": "firstUpperCase"
+    }
+  }
+}

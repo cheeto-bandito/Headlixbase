@@ -22,7 +22,7 @@
               ".env-template": ".env",
               "nuget.public.config": "nuget.config"
             },
-            "exclude": [".git/**", ".vs/**", ".vscode/**"]
+            "exclude": [".git/**", ".vs/**", ".vscode/**", "scaffolding/**"]
           }
         ]
       }
