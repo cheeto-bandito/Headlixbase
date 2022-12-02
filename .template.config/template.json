@@ -22,7 +22,7 @@
               ".env-template": ".env",
               "nuget.public.config": "nuget.config"
             },
-            "exclude": [".git/**", ".vs/**", ".vscode/**", "scaffolding/**"]
+            "exclude": [".git/**", ".vs/**", ".vscode/**", "scaffolding/**", "docker/data/cd/*.txt", "docker/data/cm/*.txt", "docker/data/mssql/*.mdf", "docker/data/mssql/*.ldf"]
           }
         ]
       }

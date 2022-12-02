@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Headlixbase.DevEx.Templates</id>
+    <version>1.0.0</version>
+    <title>Headlixbase DevEx Templates</title>
+    <authors>Chet Potvin</authors>
+    <owners></owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>images\headlixbase.png</icon>
+    <description>Helix-based templates for Headless Sitecore projects</description>
+    <copyright>© 2022 Chet Potvin</copyright>
+    <tags>dotnet-new templates sitecore</tags>
+	  <repository type="git" url="https://github.com/cheeto-bandito/Headlixbase.git" />
+	  <packageTypes>
+		  <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="**" target="content\templates\headlixbase" exclude="scaffolding/**;.git/**;.env;headlixbase.png;**/bin/**;**/obj/**;.sitecore/package-cache/**;.sitecore/user.json;.vs/**;.vscode/**;docker/traefik/certs/cert.pem;docker/traefik/certs/key.pem;docker/traefik/certs/mkcert.exe;" />
+	<file src="scaffolding\headlixbase.module\**" target="content\templates\headlixbase.module" exclude="**/bin/**;**/obj/**;" />
+	<file src="headlixbase.png" target="images\" />
+  </files>
+</package>
