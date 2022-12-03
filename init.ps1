@@ -68,9 +68,6 @@ Set-EnvFileVariable "CM_HOST" -Value "cm.$($HostName).localhost"
 # ID_HOST
 Set-EnvFileVariable "ID_HOST" -Value "id.$($HostName).localhost"
 
-# HRZ_HOST
-Set-EnvFileVariable "HRZ_HOST" -Value "hrz.$($HostName).localhost"
-
 # REPORTING_API_KEY = random 64-128 chars
 Set-EnvFileVariable "REPORTING_API_KEY" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
 
@@ -92,6 +89,11 @@ Set-EnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
 
 # SITECORE_LICENSE
 Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
+
+# JSS_EDITING_SECRET
+# Populate it for the Next.js local environment as well
+$jssEditingSecret = Get-SitecoreRandomString 64 -DisallowSpecial
+Set-EnvFileVariable "JSS_EDITING_SECRET" -Value $jssEditingSecret
 
 ##################################
 # Configure TLS/HTTPS certificates
@@ -131,6 +133,5 @@ Write-Host "Adding Windows hosts file entries..." -ForegroundColor Green
 Add-HostsEntry "cd.$($HostName).localhost"
 Add-HostsEntry "cm.$($HostName).localhost"
 Add-HostsEntry "id.$($HostName).localhost"
-Add-HostsEntry "hrz.$($HostName).localhost"
 
 Write-Host "Done!" -ForegroundColor Green

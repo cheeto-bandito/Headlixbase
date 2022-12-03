@@ -17,7 +17,7 @@ services:
     volumes:
       - ./docker/traefik:C:/etc/traefik
     depends_on:
-      hrz:
+      cd:
         condition: service_healthy  
   
   redis:
@@ -25,13 +25,19 @@ services:
     build:
       context: ./docker/build/redis
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}redis:${REDIS_VERSION}-${EXTERNAL_IMAGE_TAG_SUFFIX}
 
+  # Mount our SQL data folder and use our custom image with the Headless Services (JSS)
+  # module data added. See Dockerfile for details.
   mssql:
     mem_limit: 2GB
     volumes:
-      - ${LOCAL_DATA_PATH}\mssql:c:\data
+      - type: bind
+        source: ${LOCAL_DATA_PATH}\mssql
+        target: c:\data
 
+  # Mount our SQL data folder and use our custom image with the Headless Services (JSS)
+  # module data added. See Dockerfile for details.
   mssql-init:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-mssql-init:${VERSION:-latest}
     build:
@@ -44,8 +50,11 @@ services:
   # Mount our Solr data folder
   solr:
     volumes:
-      - ${LOCAL_DATA_PATH}\solr:c:\data
+      - type: bind
+        source: ${LOCAL_DATA_PATH}\solr
+        target: c:\data
 
+  # Mount our Solr data folder and use our retagged Solr image.
   # Some modules (like SXA) also require additions to the Solr image.
   solr-init:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-solr-init:${VERSION:-latest}
@@ -55,14 +64,18 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-solr-init:${SITECORE_VERSION}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-sxa-xm1-assets:${SXA_VERSION}
 
+  # Use our retagged Identity Server image.
+  # Configure for a mounted license file instead of using SITECORE_LICENSE.
   id:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-id:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-id${ID_VERSION}:${VERSION:-latest}
     build:
       context: ./docker/build/id
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id6:${SITECORE_VERSION}
-    environment: 
-      Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${HRZ_HOST}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id${ID_VERSION}:${SITECORE_VERSION}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
 
   cd:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cd:${VERSION:-latest}
@@ -79,7 +92,9 @@ services:
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
+      - ${HOST_LICENSE_FOLDER}:c:\license
     environment:
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
@@ -94,48 +109,17 @@ services:
         HEADLESS_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-headless-services-xm1-assets:${HEADLESS_SERVICES_VERSION}
         MANAGEMENT_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-management-services-xm1-assets:${MANAGEMENT_SERVICES_VERSION}
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
-        HORIZON_RESOURCES_IMAGE: ${SITECORE_MODULE_REGISTRY}horizon-integration-xm1-assets:${HORIZON_ASSET_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
+      - ${HOST_LICENSE_FOLDER}:c:\license
     environment:
-      SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
-      Sitecore_Horizon_ClientHost: https://${HRZ_HOST}
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
+      ## Development Environment Optimizations
+      SITECORE_DEVELOPMENT_PATCHES: DevEnvOn,CustomErrorsOff,HttpErrorsDetailed,DebugOn,DiagnosticsOff,InitMessagesOff,RobotDetectionOff
+      Sitecore_AppSettings_exmEnabled:define: "no" # remove to turn on EXM
+      SITECORE_JSS_EDITING_SECRET: ${JSS_EDITING_SECRET}
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
-  hrz:
-    image: ${SITECORE_MODULE_REGISTRY}sitecore-horizon:${HORIZON_VERSION}
-    isolation: ${ISOLATION}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/healthz/live"]
-      timeout: 300s
-    environment:
-      Sitecore_License: ${SITECORE_LICENSE}
-      Sitecore_FederatedUI__HostBaseUrl: http://hrz
-      Sitecore_SitecorePlatform__ContentManagementUrl: https://${CM_HOST}
-      Sitecore_SitecorePlatform__ContentManagementInternalUrl: http://cm
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: 'false'
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__Authority: https://${ID_HOST}
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${HRZ_HOST}
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__InternalAuthority: http://id
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__Authority: https://${ID_HOST}
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: 'false'
-      Sitecore_Plugins__Filters__ExperienceAccelerator: +SXA
-    depends_on:
-      id:
-        condition: service_started
-      cm:
-        condition: service_started
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
-      - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
-      - "traefik.http.routers.sh-secure.entrypoints=websecure"
-      - "traefik.http.routers.sh-secure.rule=Host(`${HRZ_HOST}`)"
-      - "traefik.http.routers.sh-secure.tls=true"
-      - "traefik.http.routers.sh-secure.middlewares=force-STS-Header"
-      - "traefik.http.services.sh.loadbalancer.server.port=80"
-  

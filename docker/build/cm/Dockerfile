@@ -5,7 +5,6 @@ ARG SXA_IMAGE
 ARG SPE_IMAGE
 ARG TOOLING_IMAGE
 ARG SOLUTION_IMAGE
-ARG HORIZON_RESOURCES_IMAGE
 ARG HEADLESS_SERVICES_IMAGE
 ARG MANAGEMENT_SERVICES_IMAGE
 
@@ -15,7 +14,6 @@ FROM ${SOLUTION_IMAGE} as solution
 FROM ${TOOLING_IMAGE} as tooling
 FROM ${SPE_IMAGE} as spe
 FROM ${SXA_IMAGE} as sxa
-FROM ${HORIZON_RESOURCES_IMAGE} as horizon_resources
 FROM ${BASE_IMAGE}
 
 
@@ -43,9 +41,6 @@ RUN C:\module\tools\Initialize-Content.ps1 -TargetPath C:\inetpub\wwwroot; `
   
 # Add MANAGEMENT SERVICES module
 COPY --from=management_services_image C:\module\cm\content C:\inetpub\wwwroot
-
-# Add horizon module
-COPY --from=horizon_resources \module\cm\content \inetpub\wwwroot
 
 # Copy solution website files
 COPY --from=solution \artifacts\website\ .\

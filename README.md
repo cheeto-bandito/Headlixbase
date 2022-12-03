@@ -6,7 +6,7 @@ A Headless Sitecore Helix (Headlix) solution template which can be used for Gree
 
 * Docker Ready!
 * Sitecore Content Serialization (SCS)
-* Sitecore 10.2.0
+* Sitecore 10.3.0
 * Version trimming rules engine - Items limited to 10 versions by default
 * Search Templates computed index field - find all items from an index by any templates they implement
 * Non admin Item Unlock
