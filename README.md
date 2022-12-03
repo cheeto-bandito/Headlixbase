@@ -54,6 +54,7 @@ dotnet sln add -s "{HelixLayer}/{YourModuleName}" "src/{HelixLayer}/{YourModuleN
 ```
 docker-compose build
 ```
+Update the `HOST_LICENSE_FOLDER` variable in your `.env` file
 
 ```
 docker-compose up -d
