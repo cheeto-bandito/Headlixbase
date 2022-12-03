@@ -90,6 +90,11 @@ Set-EnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
 # SITECORE_LICENSE
 Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
 
+# JSS_EDITING_SECRET
+# Populate it for the Next.js local environment as well
+$jssEditingSecret = Get-SitecoreRandomString 64 -DisallowSpecial
+Set-EnvFileVariable "JSS_EDITING_SECRET" -Value $jssEditingSecret
+
 ##################################
 # Configure TLS/HTTPS certificates
 ##################################

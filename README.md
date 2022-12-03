@@ -6,7 +6,7 @@ A Headless Sitecore Helix (Headlix) solution template which can be used for Gree
 
 * Docker Ready!
 * Sitecore Content Serialization (SCS)
-* Sitecore 10.2.0
+* Sitecore 10.3.0
 * Version trimming rules engine - Items limited to 10 versions by default
 * Search Templates computed index field - find all items from an index by any templates they implement
 * Non admin Item Unlock
@@ -14,21 +14,58 @@ A Headless Sitecore Helix (Headlix) solution template which can be used for Gree
 * Integration with [helix-publishing-pipeline](https://github.com/richardszalay/helix-publishing-pipeline)
 * Fast ([see benchmark](https://github.com/richardszalay/Helixbase-HPP/tree/benchmarks#benchmarks)) publish-on-build (when building inside Visual Studio)
 * [_Show Title When Blank_](https://jammykam.wordpress.com/2017/09/20/show-title-when-blank/) patch, the forgotten Sitecore feature!
-* COMING SOON: Scaffolding helix modules with `dotnet new`
+* Scaffolding helix modules with `dotnet new`
 * COMING SOON: Support for custom `dotnet new` templates
 
-## (TODO) Setup Instructions
-1. Install Visual Studio 2022
-2. Clone this repo
-3. Install the headlixbase template
-4. dotnet new headlixbase -n {YourSolutionName} -at {YourName} -cn {YourCompanyName}
-5. cd {YourSolutionName}
-6. .\init.ps1
-7. docker-compose build
-8. docker-compose up -d
+## Getting Started
+This code is open sourced in order to facilitate contributions from the community.  However, you do not need to clone this repository in order to take advantage of these `dotnet new` templates.
+
+### Install the headlixbase Templates
+
+1. Open Powershell with administrator privileges
+2. Run the following command:
+
+```
+dotnet new -i headlixbase.DevEx.Templates --nuget-source https://sitecore.myget.org/F/sc-packages/api/v3/index.json
+```
+
+### Scaffold a Helix solution
+
+```
+dotnet new headlixbase -n {YourSolutionName} -at {YourName} -cn {YourCompanyName}
+```
+
+### Scaffold a Helix module
+
+```
+dotnet new headlixbase.module -n {YourModuleName} -cn {YourCompanyName} -sn {YourSolutionName} -hl {HelixLayer[Feature, Foundation, Project]}
+```
+
+```
+dotnet sln add -s "{HelixLayer}/{YourModuleName}" "{HelixLayer}/{YourModuleName}/website/{YourModuleName}.csproj"
+```
+
+### Initializing Docker
+
+```
+.\init.ps1 -LicenseXmlPath {PathToYourLicenseFile}
+```
+
+```
+docker-compose build
+```
+
+```
+docker-compose up -d
+```
 
 
-#### (TODO) Using Headlixbase:
+## Contributing
+
+### Packaging the Templates
+
+
+
 
 
 
