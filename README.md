@@ -26,7 +26,7 @@ This code is open sourced in order to facilitate contributions from the communit
 2. Run the following command:
 
 ```
-dotnet new -i headlixbase.DevEx.Templates --nuget-source https://sitecore.myget.org/F/sc-packages/api/v3/index.json
+dotnet new -i Headlixbase.DevEx.Templates --nuget-source https://nuget.pkg.github.com/cheeto-bandito/index.json
 ```
 
 ### Scaffold a Helix solution
@@ -42,7 +42,7 @@ dotnet new headlixbase.module -n {YourModuleName} -cn {YourCompanyName} -sn {You
 ```
 
 ```
-dotnet sln add -s "{HelixLayer}/{YourModuleName}" "{HelixLayer}/{YourModuleName}/website/{YourModuleName}.csproj"
+dotnet sln add -s "{HelixLayer}/{YourModuleName}" "src/{HelixLayer}/{YourModuleName}/website/{YourModuleName}.csproj"
 ```
 
 ### Initializing Docker
@@ -64,7 +64,21 @@ docker-compose up -d
 
 ### Packaging the Templates
 
+```
+nuget pack ".\Headlixbase.DevEx.Templates.nuspec" -OutputDirectory "C:\nuget\LocalFeed" -NoDefaultExcludes
+```
 
+### Publishing the Package
+
+https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
+
+```
+nuget source add -Name "github" -Source "https://nuget.pkg.github.com/cheeto-bandito/index.json"
+```
+
+```
+dotnet nuget push "Headlixbase.DevEx.Templates.1.0.x.nupkg" --api-key YOUR_GITHUB_PAT --source "github"
+```
 
 
 
