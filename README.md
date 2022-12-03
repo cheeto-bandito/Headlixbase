@@ -26,7 +26,7 @@ This code is open sourced in order to facilitate contributions from the communit
 2. Run the following command:
 
 ```
-dotnet new -i Headlixbase.DevEx.Templates --nuget-source https://nuget.pkg.github.com/cheeto-bandito/headlixbase/index.json
+dotnet new -i Headlixbase.DevEx.Templates --nuget-source https://nuget.pkg.github.com/cheeto-bandito/index.json
 ```
 
 ### Scaffold a Helix solution
