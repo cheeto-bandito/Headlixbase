@@ -95,6 +95,9 @@ Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String 
 $jssEditingSecret = Get-SitecoreRandomString 64 -DisallowSpecial
 Set-EnvFileVariable "JSS_EDITING_SECRET" -Value $jssEditingSecret
 
+$hostLicenseFolder = Split-Path -Path $LicenseXmlPath
+Set-EnvFileVariable "HOST_LICENSE_FOLDER" -Value $hostLicenseFolder
+
 ##################################
 # Configure TLS/HTTPS certificates
 ##################################
